@@ -1,20 +1,15 @@
 
-# Build the Spring Boot application
+# Build the Spring Boot application using the Maven installation in this image
 FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
 COPY pom.xml .
-COPY .mvn .mvn
-COPY mvnw .
-
-RUN chmod +x mvnw
-
 COPY src src
 
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-# Run the application
+# Run the application with Java 21
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
